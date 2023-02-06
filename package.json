@@ -9,8 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "playwright": "^1.30.0"
   },
-  "devDependencies": {},
   "description": ""
 }
