@@ -9,6 +9,12 @@ async function main(){
 
     await page.goto('https://google.com')
     // console.log("oi")
+
+    const searchTerm = 'eu amo automação'; // texto a ser inserido
+    const input =  await page.$('[name ="q"]') // pegando o input pelo name
+    await input.type(searchTerm);
+    await input.press('Enter');
+
 }
 
 main()
