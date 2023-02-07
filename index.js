@@ -29,22 +29,45 @@ async function main(){
 
     await page.goto('https://www.bing.com/search?q=&form=QBLH&sp=-1&pq=&sc=8-0&qs=n&sk=&cvid=C642DE3A760C43F497A0F0B3187CA68F&ghsh=0&ghacc=0&ghpl=')
 
-    // setTimeout(async () => {
-    //     await page.reload();
-    //   }, 3000); // atualiza a pagina para atualizar os pontos
-
-    // await page.click("#bnp_btn_accept"); // aceita o modal de pedido de cookies
-
-
     //Pesquisa
     
-    const Term1 = '10';
+    const Term1 = '0';
     const SInput = await page.$('[name = "q"]');
     await SInput.type(Term1)
     await SInput.press('Enter')
 
-    // 🟢 Até aqui faz a primeira pesquisa normalmente, devido a uns random reload do bing fica meio impressivel e acabado fechando a pag quando é tentado um loop de pesquisa
-    
+    //Loop de Pesquisa
+    setTimeout(async () => {
+
+      // oque cada operação faz esta comentando apartir da linha 71
+
+      await page.click("#bnp_btn_accept");
+
+        for (let i = 1; i < 31; i++) {
+          await page.click('#sb_form_q');
+          await page.click('#sw_clx');
+      
+          await page.click('#sb_form_q');
+          const Input = await page.$('#sb_form_q');
+          await Input.type(`Pesquisa Numero ${i}`);
+          await Input.press('Enter');
+      
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+
+        await page.click('#sb_form_q');
+        await page.click('#sw_clx');
+
+        await page.click('#sb_form_q');
+        const Input = await page.$('#sb_form_q');
+        await Input.type(`Por Hoje é Só 👏👏👏`);
+
+      }, 4000);
+    }
+
+main()
+
+
         // await page.click('#sb_form_q') aperta no input
         // await page.click('#sw_clx') aperta o x para limpar o texto
     
@@ -52,21 +75,9 @@ async function main(){
         // const tst = await page.$('#sb_form_q');
         // await tst.type('oii')
         // await tst.press('Enter')
-
-    //Loop Funcionando
-
-    for (let i = 1; i < 30; i++) {
-      await page.click('#sb_form_q');
-      await page.click('#sw_clx');
-  
-      await page.click('#sb_form_q');
-      const Input = await page.$('#sb_form_q');
-      await Input.type(`Pesquisa Numero ${i}`);
-      await Input.press('Enter');
-  
-      await new Promise(resolve => setTimeout(resolve, 100));
-    }
     
-}
+        // setTimeout(async () => {
+        //   await page.reload();
+        // }, 1000);// atualiza a pagina para atualizar os pontos
 
-main()
+        // await page.click("#bnp_btn_accept"); // aceita o modal de pedido de cookies
