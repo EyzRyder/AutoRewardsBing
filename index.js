@@ -5,7 +5,7 @@ const browserType = 'chromium';
 
 async function main(){
   
-  // Ganhe até 90 pontos por dia, 3 pontos por pesquisa no COMPUTADOR, 90 / 3 = 30, ent tem que logar, abrir o bing e  efetuar 30 pesquisas
+  // Ganhe até 90 pontos por dia, 3 pontos por pesquisa no COMPUTADOR, 90 / 3 = 30. então o script tem que logar, abrir o bing e efetuar 30 pesquisas
   
     const browser = await playwright[browserType].launch({ headless: false });
     const context = await browser.newContext();
@@ -16,11 +16,11 @@ async function main(){
     //Login e Senha
 
     const input =  await page.$('[name ="loginfmt"]')
-    await input.type(process.env)
+    await input.type(process.env.EMAIL)
     await input.press('Enter');
 
     const pass =  await page.$('[name ="passwd"]')
-    await pass.type(process.env)
+    await pass.type(process.env.KEY)
     await page.click('#idSIButton9') // clica no botão de logar da senha, pq o Enter n funciona
     await page.click('#idSIButton9') // clica no botão para continuar que possui o mesmo id
 
