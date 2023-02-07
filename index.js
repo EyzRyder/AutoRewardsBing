@@ -5,7 +5,7 @@ const browserType = 'chromium';
 
 async function main(){
   
-  // Ganhe até 90 pontos por dia, 3 pontos por pesquisa no COMPUTADOR, 90 / 3 = 30. então o script tem que logar, abrir o bing e efetuar 30 pesquisas
+  // Ganhe até 90 pontos por dia, 3 pontos por pesquisa no COMPUTADOR, 90 / 3 = 30. Então o script tem que logar, abrir o bing e efetuar 30 pesquisas
   
     const browser = await playwright[browserType].launch({ headless: false });
     const context = await browser.newContext();
