@@ -16,11 +16,11 @@ async function main(){
     //Login e Senha
 
     const input =  await page.$('[name ="loginfmt"]')
-    await input.type(process.env.EMAIL)
+    await input.type(process.env)
     await input.press('Enter');
 
     const pass =  await page.$('[name ="passwd"]')
-    await pass.type(process.env.KEY)
+    await pass.type(process.env)
     await page.click('#idSIButton9') // clica no botão de logar da senha, pq o Enter n funciona
     await page.click('#idSIButton9') // clica no botão para continuar que possui o mesmo id
 
@@ -52,7 +52,7 @@ async function main(){
           await Input.type(`Pesquisa Numero ${i}`);
           await Input.press('Enter');
       
-          await new Promise(resolve => setTimeout(resolve, 100));
+          await new Promise(resolve => setTimeout(resolve, 500));
         }
 
         await page.click('#sb_form_q');
@@ -62,7 +62,7 @@ async function main(){
         const Input = await page.$('#sb_form_q');
         await Input.type(`Por Hoje é Só 👏👏👏`);
 
-      }, 4000);
+      }, 5000);
     }
 
 main()
