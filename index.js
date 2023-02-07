@@ -21,11 +21,11 @@ async function main(){
     //Login e Senha
 
     const input =  await page.$('[name ="loginfmt"]')
-    await input.type(process.env.EMAIL)
+    await input.type(process.env)
     await input.press('Enter');
 
     const pass =  await page.$('[name ="passwd"]')
-    await pass.type(process.env.KEY)
+    await pass.type(process.env)
     await page.click('#idSIButton9') // clica no botão de logar da senha, pq o Enter n funciona
     await page.click('#idSIButton9') // clica no botão para continuar que possui o mesmo id
 
