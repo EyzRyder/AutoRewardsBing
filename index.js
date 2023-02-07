@@ -3,11 +3,16 @@ require('dotenv').config();
 
 const browserType = 'chromium';
 
+
+
+
 async function main(){
   
   // Ganhe até 90 pontos por dia, 3 pontos por pesquisa no COMPUTADOR, 90 / 3 = 30. Então o script tem que logar, abrir o bing e efetuar 30 pesquisas
   
-    const browser = await playwright[browserType].launch({ headless: false });
+    const browser = await playwright[browserType].launch({
+      executablePath: 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', //abre o edge
+      headless: false });
     const context = await browser.newContext();
     const page = await context.newPage();
 
@@ -16,11 +21,11 @@ async function main(){
     //Login e Senha
 
     const input =  await page.$('[name ="loginfmt"]')
-    await input.type(process.env)
+    await input.type(process.env.EMAIL)
     await input.press('Enter');
 
     const pass =  await page.$('[name ="passwd"]')
-    await pass.type(process.env)
+    await pass.type(process.env.KEY)
     await page.click('#idSIButton9') // clica no botão de logar da senha, pq o Enter n funciona
     await page.click('#idSIButton9') // clica no botão para continuar que possui o mesmo id
 
@@ -61,6 +66,8 @@ async function main(){
         await page.click('#sb_form_q');
         const Input = await page.$('#sb_form_q');
         await Input.type(`Por Hoje é Só 👏👏👏`);
+
+        page.press('Enter')
 
       }, 5000);
     }
