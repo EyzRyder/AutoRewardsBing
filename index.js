@@ -3,15 +3,12 @@ require('dotenv').config();
 
 const browserType = 'chromium';
 
-
-
-
 async function main(){
   
   // Ganhe até 90 pontos por dia, 3 pontos por pesquisa no COMPUTADOR, 90 / 3 = 30. Então o script tem que logar, abrir o bing e efetuar 30 pesquisas
   
     const browser = await playwright[browserType].launch({
-      executablePath: 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', //abre o edge
+      // executablePath: 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', //abre o edge
       headless: false });
     const context = await browser.newContext();
     const page = await context.newPage();
@@ -32,7 +29,7 @@ async function main(){
 
     //Abrir Bing
 
-    await page.goto('https://www.bing.com/search?q=&form=QBLH&sp=-1&pq=&sc=8-0&qs=n&sk=&cvid=C642DE3A760C43F497A0F0B3187CA68F&ghsh=0&ghacc=0&ghpl=')
+    await page.goto('https://www.bing.com/search?q=Pesquisa+Numero+3&qs=n&form=QBRE&sp=-1&pq=&sc=10-0&sk=&cvid=AE59F13D55AE4443A173E4DA65169A6E&ghsh=0&ghacc=0&ghpl=')
 
     //Pesquisa
     
