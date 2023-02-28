@@ -19,18 +19,18 @@ async function main(){
     //Login e Senha
 
     const input =  await page.$('[name ="loginfmt"]')
-    await input.type(process.env)
+    await input.type(process.env) //COLOQUE SEU EMAIL NO ENV
     await input.press('Enter');
 
     const pass =  await page.$('[name ="passwd"]')
-    await pass.type(process.env)
+    await pass.type(process.env) //COLOQUE SUA SENHA NO ENV 
     await page.click('#idSIButton9') // clica no botão de logar da senha, pq o Enter n funciona
     await page.click('#idSIButton9') // clica no botão para continuar que possui o mesmo id
 
 
     //Abrir Bing
 
-    await page.goto('https://www.bing.com/search?q=Pesquisa+Numero+3&qs=n&form=QBRE&sp=-1&pq=&sc=10-0&sk=&cvid=AE59F13D55AE4443A173E4DA65169A6E&ghsh=0&ghacc=0&ghpl=')
+    await page.goto('https://www.bing.com/search?q=0&qs=n&form=QBRE&sp=-1&pq=&sc=10-0&sk=&cvid=AE59F13D55AE4443A173E4DA65169A6E&ghsh=0&ghacc=0&ghpl=')
 
     //Pesquisa
     
@@ -46,7 +46,8 @@ async function main(){
 
       await page.click("#bnp_btn_accept");
 
-        for (let i = 1; i < 31; i++) {
+        for (let i = 1; i < 35; i++) {
+
           await page.click('#sb_form_q');
           await page.click('#sw_clx');
       
