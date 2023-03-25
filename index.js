@@ -19,11 +19,11 @@ async function main(){
     //Login e Senha
 
     const input =  await page.$('[name ="loginfmt"]')
-    await input.type(process.env) // seu email
+    await input.type(process.env)
     await input.press('Enter');
 
     const pass =  await page.$('[name ="passwd"]')
-    await pass.type(process.env) //sua senha
+    await pass.type(process.env)
     await page.click('#idSIButton9') // clica no botão de logar da senha, pq o Enter n funciona
     await page.click('#idSIButton9') // clica no botão para continuar que possui o mesmo id
 
@@ -39,7 +39,7 @@ async function main(){
     await SInput.type(Term1)
     await SInput.press('Enter')
 
-    //Loop de Pesquisa
+    // Loop de Pesquisa
     setTimeout(async () => {
 
     // oque cada operação faz esta comentando apartir da linha 71
@@ -68,9 +68,13 @@ async function main(){
 
       }, 5000);
 
-      //await browser.close();
-
-     }
+      setTimeout(async () => {
+  
+      await browser.close();
+  
+      }, 5000);
+     
+    }
 
 main()
 
