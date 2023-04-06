@@ -46,7 +46,7 @@ async function main(){
 
       await page.click("#bnp_btn_accept");
 
-        for (let i = 1; i < 35; i++) {
+        for (let i = 1; i < 3; i++) {
 
           await page.click('#sb_form_q');
           await page.click('#sw_clx');
@@ -66,29 +66,11 @@ async function main(){
         const Input = await page.$('#sb_form_q');
         await Input.type(`Por Hoje é Só 👏👏👏`);
 
+        await page.waitForTimeout(20000)
+        await browser.close();
+
       }, 5000);
 
-      setTimeout(async () => {
-  
-      await browser.close();
-  
-      }, 5000);
-     
     }
 
 main()
-
-
-        // await page.click('#sb_form_q') aperta no input
-        // await page.click('#sw_clx') aperta o x para limpar o texto
-    
-        // await page.click('#sb_form_q')
-        // const tst = await page.$('#sb_form_q');
-        // await tst.type('oii')
-        // await tst.press('Enter')
-    
-        // setTimeout(async () => {
-        //   await page.reload();
-        // }, 1000);// atualiza a pagina para atualizar os pontos
-
-        // await page.click("#bnp_btn_accept"); // aceita o modal de pedido de cookies
