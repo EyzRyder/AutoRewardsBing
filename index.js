@@ -46,7 +46,7 @@ async function main(){
 
       await page.click("#bnp_btn_accept");
 
-        for (let i = 1; i < 3; i++) {
+        for (let i = 1; i < 35; i++) {
 
           await page.click('#sb_form_q');
           await page.click('#sw_clx');
