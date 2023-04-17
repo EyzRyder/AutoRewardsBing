@@ -46,7 +46,7 @@ async function main(){
 
       await page.click("#bnp_btn_accept");
 
-        for (let i = 1; i < 35; i++) {
+        for (let i = 1; i < 2; i++) {
 
           await page.click('#sb_form_q');
           await page.click('#sw_clx');
@@ -66,41 +66,30 @@ async function main(){
         const Input = await page.$('#sb_form_q');
         await Input.type(`Por Hoje é Só 👏👏👏`);
 
-
-
         // await page.waitForTimeout(20000)
         // await browser.close();
+
+        //Abre a versão mobile para pegar os pontos mobile
+        setTimeout(async () => {
+          await context.newPage();
+          const pages = await context.pages();
+          const pageMobile = pages[1];
+          await pageMobile.setViewportSize({ width: 375, height: 812 });
+        
+          //fecha a aba normal e abre a mobile
+          const page = pages[0];
+          await page.close();
+        
+          await pageMobile.goto('https://www.bing.com/search?q=0&qs=n&form=QBRE&sp=-1&pq=&sc=10-0&sk=&cvid=AE59F13D55AE4443A173E4DA65169A6E&ghsh=0&ghacc=0&ghpl=');
+        
+          
+
+        
+        }, 1000);
+        
 
       }, 5000);
 
     }
 
-    // Pesquisa para pontos mobile
-    (async () => {
-      const browser = await playwright[browserType].launch({
-        executablePath: 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe', //abre o edge
-        headless: false,
-       });
-      const context = await browser.newContext({
-        viewport: {
-          width: 414,
-          height: 896
-        },
-        userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/80.0.3987.149 Mobile/15E148 Safari/604.1'
-      });
-      const page = await context.newPage();
-    
-      // Aqui você pode adicionar o código que faz a pesquisa
-      await page.goto('https://www.bing.com/search?q=0&qs=n&form=QBRE&sp=-1&pq=&sc=10-0&sk=&cvid=AE59F13D55AE4443A173E4DA65169A6E&ghsh=0&ghacc=0&ghpl=', { timeout: 0 });
-      await page.waitForSelector('#sb_form_q', { timeout: 0 });
-      const mobileSearchInput = await page.$('#sb_form_q');
-      await mobileSearchInput.type('Mobile Search Test');
-      await mobileSearchInput.press('Enter');
-      await page.waitForTimeout(5000);
-      await browser.close();
-
-      
-      await browser.close();
-    })();
-
-// main()
+main()
