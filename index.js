@@ -97,7 +97,7 @@ const browserType = 'chromium';
             //     }
             // }, 1000);
                   
-            await page.waitForTimeout(20000)
+            await page.waitForTimeout(10000)
             await browser.close();
           
         }, 5000);
