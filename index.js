@@ -43,8 +43,65 @@ async function main() {
   // Loop de Pesquisa Desktop + Edge
   setTimeout(async () => {
     await page.click("#bnp_btn_accept"); //Botão de cookie
+    // função que retorna a data em formato MM/DD/YYYY
+    const data = () => {
+      const d = new Date(); // pegar a data
+      const year = d.getFullYear(); // pegar o Ano
+      const months = [
+        "01",
+        "02",
+        "03",
+        "04",
+        "05",
+        "06",
+        "07",
+        "08",
+        "09",
+        "10",
+        "11",
+        "12",
+      ]; // lista dos meses
+      const month = months[d.getMonth()]; // pegar o mes atual
+      const date = d.getDate(); // pegar a data do dia
 
-    for (let i = 1; i < 35; i++) {
+      return `${month}/${date}/${year}`; // retornar a data em formato MM/DD/YYYY
+    };
+
+    await page.goto(
+      `https://www.bing.com/rewardsapp/flyout?channel=0&partnerId=&date=${data()}`
+    );
+    let earningsData = "00/00"; // zerar o formato dos dados
+
+    if (
+      (await page.locator(`.align_left.fc_50pct > .mfo_c_es > div`).count()) > 0
+    ) {
+      earningsData = await page.$eval(
+        `.align_left.fc_50pct > .mfo_c_es > div`,
+        (el) => el.innerText
+      ); // pegar os dados no formato 50%
+    }
+
+    if (
+      (await page.locator(`.align_left.fc_33pct > .mfo_c_es > div`).count()) > 0
+    ) {
+      earningsData = await page.$eval(
+        `.align_left.fc_33pct > .mfo_c_es > div`,
+        (el) => el.innerText
+      ); // pegar os dados no formato 33%
+    }
+    const earningsOfTheDay = earningsData; // vai procurar os ganhos do dia, ele tem formatos diferentes de layout, sera retornado aquele que existe
+
+    //  pegar o texto limite de pontos
+    const earningsIndex = earningsOfTheDay.lastIndexOf("/"); // pegar o index do limite de pontos
+    const earningsLimit = parseInt(earningsOfTheDay.substr(earningsIndex + 1)); // pegar o limite de pontos
+
+    await page.goto(
+      "https://www.bing.com/search?q=0&qs=n&form=QBRE&sp=-1&pq=&sc=10-0&sk=&cvid=AE59F13D55AE4443A173E4DA65169A6E&ghsh=0&ghacc=0&ghpl="
+    ); // voltar para o Bing
+
+    await page.click("#bnp_btn_accept"); //Botão de cookie
+
+    for (let i = 1; i < earningsLimit/2; i++) {
       await page.click("#sb_form_q"); //Botão do form
       await page.click("#sw_clx"); //Botão para limpar o form
 
