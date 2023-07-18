@@ -4,7 +4,7 @@ require("dotenv").config();
 const browserType = "chromium";
 
 async function main() {
-  //Ganhe até 90 pontos por dia, 3 pontos por pesquisa no COMPUTADOR, 90 / 3 = 30. Então o script tem que logar, abrir o bing e efetuar 30 pesquisas
+  // Ganhe até 90 pontos por dia, 3 pontos por pesquisa no COMPUTADOR, 90 / 3 = 30. Então o script tem que logar, abrir o bing e efetuar 30 pesquisas
 
   const browser = await playwright[browserType].launch({
     executablePath:
@@ -40,10 +40,8 @@ async function main() {
   await SInput.type(Term1);
   await SInput.press("Enter");
 
-  // Loop de Pesquisa Desktop + Edge
+  // Loop de Pesquisa
   setTimeout(async () => {
-    await page.click("#bnp_btn_accept"); //Botão de cookie
-    // função que retorna a data em formato MM/DD/YYYY
     const data = () => {
       const d = new Date(); // pegar a data
       const year = d.getFullYear(); // pegar o Ano
@@ -66,7 +64,6 @@ async function main() {
 
       return `${month}/${date}/${year}`; // retornar a data em formato MM/DD/YYYY
     };
-
     await page.goto(
       `https://www.bing.com/rewardsapp/flyout?channel=0&partnerId=&date=${data()}`
     );
@@ -101,15 +98,14 @@ async function main() {
 
     await page.click("#bnp_btn_accept"); //Botão de cookie
 
-    for (let i = 1; i < earningsLimit/2; i++) {
-      await page.click("#sb_form_q"); //Botão do form
-      await page.click("#sw_clx"); //Botão para limpar o form
+    for (let i = 1; i <= earningsLimit / 2; i++) {
+      await page.click("#sb_form_q");
+      await page.click("#sw_clx");
 
       await page.click("#sb_form_q");
       const Input = await page.$("#sb_form_q");
       await Input.type(`Pesquisa Numero ${i}`);
       await Input.press("Enter");
-
       await new Promise((resolve) => setTimeout(resolve, 500));
     }
 
@@ -118,6 +114,7 @@ async function main() {
 
     await page.click("#sb_form_q");
     const Input = await page.$("#sb_form_q");
+
     await Input.type(`Por Hoje é Só, no desktop 👏👏👏`);
 
     // Loop de Pesquisa Mobile (Achar outro método de definir a tela como mobile)
