@@ -1,7 +1,6 @@
 const playwright = require("playwright");
-require("dotenv").config();
-
 const browserType = "chromium";
+require("dotenv").config();
 
 async function main() {
   // Ganhe até 90 pontos por dia, 3 pontos por pesquisa no COMPUTADOR, 90 / 3 = 30. Então o script tem que logar, abrir o bing e efetuar 30 pesquisas
@@ -99,8 +98,8 @@ async function main() {
     await page.click("#bnp_btn_accept"); //Botão de cookie
 
     for (let i = 1; i <= earningsLimit / 2; i++) {
-      await page.click("#sb_form_q");
-      await page.click("#sw_clx");
+      await page.click("#sb_form_q"); //Botão do form
+      await page.click("#sw_clx"); //Botão para limpar o form
 
       await page.click("#sb_form_q");
       const Input = await page.$("#sb_form_q");
