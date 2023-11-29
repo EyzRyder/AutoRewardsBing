@@ -1,25 +1,53 @@
-//! Add latter
-// await page.goto("https://rewards.bing.com/?ref=rewardspanel"); //url da pagina de conquistas
-// await page.goto("https://rewards.bing.com/pointsbreakdown"); //url da pagina de pontos
 
 // Dependencies
 import playwright from "playwright";
 import { input } from '@inquirer/prompts';
+import select, { Separator } from '@inquirer/select';
+
 const browserType = "chromium";
 
 // Environment Variables
 import "dotenv/config";
-// require("dotenv").config();
 
 async function main() {
   //Ganhe até 90 pontos por dia, 3 pontos por pesquisa no COMPUTADOR, 90 / 3 = 30. Então o script tem que logar, abrir o bing e efetuar 30 pesquisas
 
+  const answer = await select({
+    message: 'Selecione um ação',
+    choices: [
+      {
+        name: 'Modo Desktop',
+        value: 'desktop',
+        description: 'Recadar pontos com pesquisa no modo desktop',
+      },
+      {
+        name: 'Nunhum',
+        value: 'nda',
+        description: 'Sair do programa',
+      },
+      new Separator(),
+      {
+        name: 'Tarefas Diários',
+        value: 'diario',
+        description: 'Recardar os pontos diários',
+        disabled: '(tarefas diário nao estão disponível por enquanto)',
+      },
+      {
+        name: 'Modo mobile',
+        description: 'Recadar pontos com pesquisa no modo mobile',
+        value: 'mobile',
+        disabled: '(pesquisa no modo mobile nao esta disponível por enquanto)',
+      },
+    ],
+  });
 
-  const CountLoopRes = await input({ message: 'Quantos loops vc quer', default :35});
+  if (answer != "desktop") return console.log(`Tchauu 👋👋`);
 
-  console.log("Loop ", CountLoopRes);
+  const CountLoopRes = await input({ message: 'Quantos pesquisas vc quer: ', default :35});
 
-  const { browser, page, context } = await AbriAPaginaELogar();
+  console.log(`Agora será efetivada ${CountLoopRes} pesquisas no Bing ✨.`);
+
+  const { browser, page } = await AbriAPaginaELogar();
 
   //Pesquisa Simples
   const Term1 = "0";
@@ -90,10 +118,11 @@ async function FazerVariasPesquisasEmLoopDesktop(page, loopCount) {
   await page.click("#sb_form_q");
   const Input = await page.$("#sb_form_q");
   await Input.type(`Por Hoje é Só, no desktop 👏👏👏`);
-
+  console.log((`Por Hoje é Só, no desktop 👏👏👏`));
   await page.waitForTimeout(10000);
 }
 
+// add function for looping in mobile browser
 // async function FazerVariasPesquisasEmLoopNoMobile(page, loopCount) {
 // Loop de Pesquisa Mobile (Achar outro método de definir a tela como mobile)
 // setTimeout(async () => {
@@ -128,5 +157,10 @@ async function FazerVariasPesquisasEmLoopDesktop(page, loopCount) {
 //     }
 // }, 1000);
 // }
+
+//! Add latter
+// await page.goto("https://rewards.bing.com/?ref=rewardspanel"); //url da pagina de conquistas
+// await page.goto("https://rewards.bing.com/pointsbreakdown"); //url da pagina de pontos
+
 
 main();
