@@ -1,16 +1,20 @@
 {
-  "name": "tst",
+  "name": "AutomaticSearch",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
+  "type": "module",
   "license": "ISC",
   "dependencies": {
+    "@inquirer/input": "^1.2.14",
+    "@inquirer/prompts": "^3.3.0",
     "dotenv": "^16.0.3",
+    "inquirer": "^9.2.12",
     "playwright": "^1.30.0"
   },
-  "description": ""
+  "description": "O projeto Pesquisa AutoRewardsBing é uma aplicação simples que permite a busca automatizada de informações com base em chaves e e-mails fornecidos."
 }

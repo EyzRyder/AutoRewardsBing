@@ -3,14 +3,21 @@
 // await page.goto("https://rewards.bing.com/pointsbreakdown"); //url da pagina de pontos
 
 // Dependencies
-const playwright = require("playwright");
+import playwright from "playwright";
+import { input } from '@inquirer/prompts';
 const browserType = "chromium";
 
 // Environment Variables
-require("dotenv").config();
+import "dotenv/config";
+// require("dotenv").config();
 
 async function main() {
   //Ganhe até 90 pontos por dia, 3 pontos por pesquisa no COMPUTADOR, 90 / 3 = 30. Então o script tem que logar, abrir o bing e efetuar 30 pesquisas
+
+
+  const CountLoopRes = await input({ message: 'Quantos loops vc quer', default :35});
+
+  console.log("Loop ", CountLoopRes);
 
   const { browser, page, context } = await AbriAPaginaELogar();
 
@@ -22,7 +29,7 @@ async function main() {
   await page.waitForTimeout(5000);
 
   // Loop da pesquisa
-  await FazerVariasPesquisasEmLoopDesktop(page, 35);
+  await FazerVariasPesquisasEmLoopDesktop(page, CountLoopRes);
 
   await browser.close();
 }
