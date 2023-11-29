@@ -19,6 +19,7 @@ async function main() {
   const SInput = await page.$('[name = "q"]');
   await SInput.type(Term1);
   await SInput.press("Enter");
+  await page.waitForTimeout(5000);
 
   // Loop da pesquisa
   await FazerVariasPesquisasEmLoopDesktop(page, 35);
@@ -83,7 +84,7 @@ async function FazerVariasPesquisasEmLoopDesktop(page, loopCount) {
   const Input = await page.$("#sb_form_q");
   await Input.type(`Por Hoje é Só, no desktop 👏👏👏`);
 
-  await page.waitForTimeout(15000);
+  await page.waitForTimeout(10000);
 }
 
 // async function FazerVariasPesquisasEmLoopNoMobile(page, loopCount) {
