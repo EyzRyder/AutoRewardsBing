@@ -93,21 +93,26 @@ async function AbriAPaginaELogar() {
 
   //Login e Senha
 
-  // await new Promise((resolve) => setTimeout(resolve, 5000));
-
+  await new Promise((resolve) => setTimeout(resolve, 5000));
   const input = await page.$('[name ="loginfmt"]');
   await input.type(process.env.EMAIL);
   await input.press("Enter");
 
-  // await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 5000));
 
-  const pass = await page.$('[name ="passwd"]');
+  const switchToPasswordBtn = await page.$(
+    'span[role="button"]#idA_PWD_SwitchToPassword',
+  );
+
+  if (switchToPasswordBtn) {
+    await switchToPasswordBtn.click();
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+  }
+
+  let pass = await page.$('[name ="passwd"]');
   await pass.type(process.env.KEY);
-
-  // await new Promise((resolve) => setTimeout(resolve, 500));
-
   await page.click("#idSIButton9"); // clica no botão de logar da senha, pq o Enter n funciona
-  await page.click("#idSIButton9"); // clica no botão para continuar que possui o mesmo id
+  await page.click("#acceptButton");
 
   //Abrir Bing
 
