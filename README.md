@@ -5,6 +5,7 @@ O projeto Pesquisa AutoRewardsBing é uma aplicação simples que permite a busc
 
 ## Pré-requisitos
 Antes de iniciar, certifique-se de que você tenha o Node.js instalado em sua máquina. Você pode baixá-lo em [nodejs.org](https://nodejs.org/).
+E que tenha instalado o Edge na sua maquina.
 
 ## Instalação
 1. Clone este repositório em sua máquina local:
@@ -47,5 +48,4 @@ Este projeto é licenciado sob a Licença MIT - consulte o arquivo [LICENSE](LIC
 ---
 
 Sinta-se à vontade para personalizar este arquivo `readme.md` de acordo com as necessidades específicas do seu projeto. Boa codificação!
-
 

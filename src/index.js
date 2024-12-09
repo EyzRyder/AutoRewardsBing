@@ -1,53 +1,61 @@
-
-// Dependencies
 import playwright from "playwright";
-import { input } from '@inquirer/prompts';
-import select, { Separator } from '@inquirer/select';
-
+import { input } from "@inquirer/prompts";
+import select, { Separator } from "@inquirer/select";
+import os from "os";
+import fs from "fs";
 const browserType = "chromium";
 
 // Environment Variables
 import "dotenv/config";
 
 async function main() {
-  //Ganhe até 90 pontos por dia, 3 pontos por pesquisa no COMPUTADOR, 90 / 3 = 30. Então o script tem que logar, abrir o bing e efetuar 30 pesquisas
+  //Ganhe até 90 pontos por dia, 3 pontos por pesquisa no COMPUTADOR, 90 / 3 = 30.
+  //Então o script tem que logar, abrir o bing e efetuar 30 pesquisas
 
   const answer = await select({
-    message: 'Selecione um ação',
+    message: "Selecione um ação",
     choices: [
       {
-        name: 'Modo Desktop',
-        value: 'desktop',
-        description: 'Recadar pontos com pesquisa no modo desktop',
+        name: "Modo Desktop",
+        value: "desktop",
+        description: "Recadar pontos com pesquisa no modo desktop",
       },
       {
-        name: 'Nunhum',
-        value: 'nda',
-        description: 'Sair do programa',
+        name: "Nunhum",
+        value: "nda",
+        description: "Sair do programa",
       },
       new Separator(),
       {
-        name: 'Tarefas Diários',
-        value: 'diario',
-        description: 'Recardar os pontos diários',
-        disabled: '(tarefas diário nao estão disponível por enquanto)',
+        name: "Tarefas Diários",
+        value: "diario",
+        description: "Recardar os pontos diários",
+        disabled: "(tarefas diário nao estão disponível por enquanto)",
       },
       {
-        name: 'Modo mobile',
-        description: 'Recadar pontos com pesquisa no modo mobile',
-        value: 'mobile',
-        disabled: '(pesquisa no modo mobile nao esta disponível por enquanto)',
+        name: "Modo mobile",
+        description: "Recadar pontos com pesquisa no modo mobile",
+        value: "mobile",
+        disabled: "(pesquisa no modo mobile nao esta disponível por enquanto)",
       },
     ],
   });
 
   if (answer != "desktop") return console.log(`Tchauu 👋👋`);
 
-  const CountLoopRes = await input({ message: 'Quantos pesquisas vc quer: ', default :35});
+  const CountLoopRes = await input({
+    message: "Quantos pesquisas vc quer: ",
+    default: 35,
+  });
 
   console.log(`Agora será efetivada ${CountLoopRes} pesquisas no Bing ✨.`);
 
-  const { browser, page } = await AbriAPaginaELogar();
+  const { browser, page, error } = await AbriAPaginaELogar();
+
+  if (error != null) {
+    console.log(error);
+    return;
+  }
 
   //Pesquisa Simples
   const Term1 = "0";
@@ -63,10 +71,18 @@ async function main() {
 }
 
 async function AbriAPaginaELogar() {
+  const executablePath = await getExecutablePath().then((exe) => exe());
+  if (executablePath == null) {
+    return {
+      browser: null,
+      page: null,
+      context: null,
+      error: "Microsoft Edge not found",
+    };
+  }
 
   const browser = await playwright[browserType].launch({
-    executablePath:
-      "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe", //abre o edge
+    executablePath,
     headless: false,
   });
 
@@ -77,22 +93,34 @@ async function AbriAPaginaELogar() {
 
   //Login e Senha
 
+  await new Promise((resolve) => setTimeout(resolve, 5000));
   const input = await page.$('[name ="loginfmt"]');
   await input.type(process.env.EMAIL);
   await input.press("Enter");
 
-  const pass = await page.$('[name ="passwd"]');
+  await new Promise((resolve) => setTimeout(resolve, 5000));
+
+  const switchToPasswordBtn = await page.$(
+    'span[role="button"]#idA_PWD_SwitchToPassword',
+  );
+
+  if (switchToPasswordBtn) {
+    await switchToPasswordBtn.click();
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+  }
+
+  let pass = await page.$('[name ="passwd"]');
   await pass.type(process.env.KEY);
   await page.click("#idSIButton9"); // clica no botão de logar da senha, pq o Enter n funciona
-  await page.click("#idSIButton9"); // clica no botão para continuar que possui o mesmo id
+  await page.click("#acceptButton");
 
   //Abrir Bing
 
   await page.goto(
-    "https://www.bing.com/search?q=0&qs=n&form=QBRE&sp=-1&pq=&sc=10-0&sk=&cvid=AE59F13D55AE4443A173E4DA65169A6E&ghsh=0&ghacc=0&ghpl="
+    "https://www.bing.com/search?q=0&qs=n&form=QBRE&sp=-1&pq=&sc=10-0&sk=&cvid=AE59F13D55AE4443A173E4DA65169A6E&ghsh=0&ghacc=0&ghpl=",
   );
 
-  return { browser, page, context };
+  return { browser, page, context, error: null };
 }
 
 async function FazerVariasPesquisasEmLoopDesktop(page, loopCount) {
@@ -118,8 +146,41 @@ async function FazerVariasPesquisasEmLoopDesktop(page, loopCount) {
   await page.click("#sb_form_q");
   const Input = await page.$("#sb_form_q");
   await Input.type(`Por Hoje é Só, no desktop 👏👏👏`);
-  console.log((`Por Hoje é Só, no desktop 👏👏👏`));
+  console.log(`Por Hoje é Só, no desktop 👏👏👏`);
   await page.waitForTimeout(10000);
+}
+
+async function getExecutablePath() {
+  function searhWinPath() {
+    for (const edgePath of [
+      "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+    ]) {
+      if (fs.existsSync(edgePath)) {
+        return edgePath;
+      }
+    }
+    return null;
+  }
+  function searhLinuxPath() {
+    const pathOnLinux = [
+      "/usr/bin/microsoft-edge",
+      "/usr/local/bin/microsoft-edge",
+      "/opt/microsoft/msedge-dev/msedge",
+      "/opt/microsoft/msedge/msedge",
+    ];
+    for (const edgePath of pathOnLinux) {
+      if (fs.existsSync(edgePath)) {
+        return edgePath;
+      }
+    }
+    //throw new Error("Microsoft Edge not found on Linux");
+    return "Microsoft Edge not found on Linux";
+  }
+  const osDict = {
+    win32: searhWinPath,
+    linux: searhLinuxPath,
+  };
+  return osDict[os.platform()];
 }
 
 // add function for looping in mobile browser
@@ -161,6 +222,5 @@ async function FazerVariasPesquisasEmLoopDesktop(page, loopCount) {
 //! Add latter
 // await page.goto("https://rewards.bing.com/?ref=rewardspanel"); //url da pagina de conquistas
 // await page.goto("https://rewards.bing.com/pointsbreakdown"); //url da pagina de pontos
-
 
 main();
